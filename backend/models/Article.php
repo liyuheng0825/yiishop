@@ -9,6 +9,14 @@ use yii\db\ActiveRecord;
  */
 class Article extends ActiveRecord{
     /**
+     * 定义表名
+     */
+    public static function tableName()
+    {
+        return 'article';
+    }
+
+    /**
      * 表单验证规则
      */
     public function rules(){
@@ -28,7 +36,12 @@ class Article extends ActiveRecord{
             'sort'=>'排序'
         ];
     }
-    public function getStudent(){
+
+    /**
+     * @return \yii\db\ActiveQuery
+     * 1对1 表与表的关联
+     */
+    public function getarticle_category(){
         return $this->hasOne(ArticleCategory::className(),['id'=>'article_category_id']);
     }
 }

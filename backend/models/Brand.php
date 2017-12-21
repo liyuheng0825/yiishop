@@ -9,16 +9,18 @@ use yii\db\ActiveRecord;
  * @package frontend\models
  */
 class Brand extends ActiveRecord {
-    public $imgFile;
+
     /**
      * 表单验证规则
      */
     public function rules(){
         return[
-            //>>上传文件的验证规则
-            ['imgFile','file','extensions'=>['jpg','png','gif'],'maxSize'=>1024*1024],
+
             //>>字段规则
-            [['name','intro','logo','status','sort'],'required'],
+            [['name','intro','status','sort'],'required'],
+            //>>图片默认值为空
+            ['logo', 'default', 'value' => null],
+            ['sort', 'integer'],
 
         ];
     }
