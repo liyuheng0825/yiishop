@@ -3,6 +3,7 @@
     <tr>
         <td>序号</td>
         <td>商品分类名称</td>
+        <td>简介</td>
         <td>操作</td>
     </tr>
     <?php foreach ($rows as $row):?>
@@ -23,14 +24,15 @@ $js =
             //获取id
             var id = $(this).attr('value');
             //无刷新删除
-            $(this).parents("tr").remove();
+           $(this).parents("tr").remove();
             $.post('delete',{"id":id},function (result) {
                 if(result>0){
                    alert('删除成功');
                }else {
-                   alert('删除失败')
+                   alert('删除失败,有节点分类');
+                   top.location.reload();
                }
-            });
+            });      
         }
     })
 JS;

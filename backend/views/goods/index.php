@@ -1,0 +1,55 @@
+<a href="<?=\yii\helpers\Url::to(['goods/add'])?>" class="btn btn-info" role="button">添加</a>
+<table class="table">
+    <tr>
+        <td>序号</td>
+        <td>商品名称</td>
+        <td>货号</td>
+        <td>LOGO图片</td>
+        <td>商品分类</td>
+        <td>品牌分类</td>
+        <td>市场价格</td>
+        <td>商品价格</td>
+        <td>库存</td>
+        <td>是否在售</td>
+        <td>状态</td>
+        <td>排序</td>
+    </tr>
+    <?php foreach ($rows as $row):?>
+        <tr>
+            <td><?=$row['id']?></td>
+            <td><?=$row['name']?></td>
+            <td><?=$row['sn']?></td>
+            <td><img src="<?=$row['logo']?>" alt="" width="60" height="60"></td>
+            <td><?=$row['goods_category_id']?></td>
+            <td><?=$row['brand_id']?></td>
+            <td><?=$row['market_price']?></td>
+            <td><?=$row['shop_price']?></td>
+            <td><?=$row['stock']?></td>
+            <td><?=$row['is_on_sale']?></td>
+            <td><?=$row['status']?></td>
+            <td><?=$row['sort']?></td>
+            <td><a href="#"  class="btn btn-default" role="button" id="delete" value="<?=$row['id']?>">删除</a><a href="<?=\yii\helpers\Url::to(['goods/edit','id'=>$row['id']])?>"  class="btn btn-default" role="button">修改</a></td>
+        </tr>
+    <?php endforeach;?>
+</table>
+<script type="text/javascript">
+    $("table").on('click','tr td #delete',function () {
+        var result = confirm("确定删除吗?");
+        if (result==true){
+            //获取id
+            var id = $(this).attr('value');
+            //无刷新删除
+            $(this).parents("tr").remove();
+            $.post('delete',{"id":id},function (result) {
+                if(result>0){
+                    alert('删除成功');
+                }else {
+                    alert('删除失败')
+                }
+            });
+        }
+    })
+
+
+
+</script>
