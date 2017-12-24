@@ -18,7 +18,6 @@ class ArticleController extends Controller{
      */
     public function actionIndex(){
         $rows = Article::find()->where(['>=','status','0'])->all();
-
         return $this->render('index',['rows'=>$rows]);
     }
 

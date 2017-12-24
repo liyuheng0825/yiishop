@@ -17,6 +17,7 @@ class GoodsCategory extends ActiveRecord{
             //>>字段规则
             [['name','intro','parent_id'],'required'],
 
+
         ];
     }
     public function attributeLabels()
@@ -90,7 +91,7 @@ class GoodsCategory extends ActiveRecord{
         foreach ($categorys as $category){
             if($category->parent_id == $parent_id){
                 //在每一个找到的儿子上保存一个字段表示缩进好的分类名称
-                $category->name = str_repeat("&emsp;",$deep*2).$category->name;
+                $category->name = str_repeat("---",$deep*2).$category->name;
                 $children[] = $category;
                 //继续找,$category下可能还有子节点
                 $this->getChildren($categorys,$category->id,$deep+1);

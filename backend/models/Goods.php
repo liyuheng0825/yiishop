@@ -14,13 +14,17 @@ class Goods extends ActiveRecord{
     public function rules(){
         return[
             //>>字段规则
-            [['name','sn','logo','goods_category_id','brand_id','market_price','shop_price','stock','is_on_sale','status','sort'],'required'],
+            [['name','sn','logo','goods_category_id','brand_id','market_price','shop_price','stock','is_on_sale','sort',],'required'],
+            //>>整数
+            [['market_price','shop_price','stock'], 'number'],
+            //>>状态
+            ['status', 'default', 'value' => 1],
 
         ];
     }
     public function attributeLabels(){
         return [
-            'name'=>'品牌名称',
+            'name'=>'商品名称',
             'sn'=>'货号',
             'logo'=>'LOGO图片',
             'goods_category_id'=>'商品分类id',
@@ -29,8 +33,22 @@ class Goods extends ActiveRecord{
             'shop_price'=>'商品价格',
             'stock'=>'库存',
             'is_on_sale'=>'是否在售',
-            'status'=>'状态 ',
+            //'status'=>'状态 ',
             'sort'=>'排序 ',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     * 关联商品分类id
+     */
+    public function getgoods_category(){
+        return $this->hasOne(GoodsCategory::className(),['id'=>'goods_category_id']);
+    }
+    /**
+     * 关联品牌分类
+     */
+    public function getbrand(){
+        return $this->hasOne(Brand::className(),['id'=>'brand_id']);
     }
 }
