@@ -1,4 +1,11 @@
 <a href="<?=\yii\helpers\Url::to(['goods/add'])?>" class="btn btn-info" role="button">添加</a>
+<form action="" method="post">
+    <input type="text" name="name" placeholder="商品名称" class="btn">
+    <input type="text" name="sn" placeholder="货号" class="btn">
+    <input type="text" name="market_price" placeholder="市场价格" class="btn">
+    <input type="text" name="shop_price" placeholder="商品价格" class="btn">
+    <input type="submit" class="btn btn-info" value="搜索">
+</form>
 <table class="table">
     <tr>
         <td>序号</td>
@@ -51,7 +58,9 @@
             });
         }
     })
-
-
-
 </script>
+<?=\yii\widgets\LinkPager::widget([
+    'pagination'=>$pager,
+    'nextPageLabel'=>'下一页',
+    'prevPageLabel'=>'上一页',
+])?>

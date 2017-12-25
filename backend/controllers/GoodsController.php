@@ -9,6 +9,7 @@ use backend\models\GoodsGallery;
 use backend\models\GoodsIntro;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
+use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Request;
@@ -26,8 +27,38 @@ class GoodsController extends Controller{
      * 商品列表
      */
     public function actionIndex(){
-        $rows = Goods::find()->where(['>','status','0'])->all();
-        return $this->render('index',['rows'=>$rows]);
+        $query = Goods::find();
+        $query->where(['>','status','0']);
+
+        //>>搜索
+        if ($_POST){
+            //var_dump($date);die;
+            if ($_POST['name']){
+            $query->andWhere(['like','name',$_POST['name']]);
+            }
+            if ($_POST['sn']){
+            $query->andWhere(['like','sn',$_POST['sn']]);
+            }
+            if ($_POST['market_price']){
+            $query->andWhere(['like','market_price',$_POST['market_price']]);
+            }
+            if ($_POST['shop_price']){
+            $query->andWhere(['like','shop_price',$_POST['shop_price']]);
+            }
+            //$rows =$query->all();
+        }
+            //$rows = $query->where(['>','status','0'])->all();
+        //>>分页
+        $pager = new Pagination(
+            [
+                'defaultPageSize'=>3,
+                'totalCount'=>$query->count(),
+            ]
+        );
+            //>>分页工具条
+            $rows = $query->limit($pager->limit)->offset($pager->offset)->all();//limit 0[offset],2[limit]      第二页limit 2,2
+
+        return $this->render('index',['rows'=>$rows,'pager'=>$pager]);
     }
     /**
      * 商品添加
@@ -37,7 +68,7 @@ class GoodsController extends Controller{
         //>>goods_day_count 商品每日添加数 日志
         //>>时间处理
         $time = date('Ymd',time());
-        $sn = $time*1000+1;
+        $sn = $time*1000000+1;
         if(GoodsDayCount::findOne(['day'=> date('Y-m-d',time())])==null){
             //>>如果今天不存在
             $model->sn=$sn;

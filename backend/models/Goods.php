@@ -19,8 +19,18 @@ class Goods extends ActiveRecord{
             [['market_price','shop_price','stock'], 'number'],
             //>>状态
             ['status', 'default', 'value' => 1],
+            ['goods_category_id','GoodsCategoryPid']
 
         ];
+    }
+
+    /**
+     * 自定义验证规则
+     */
+    public function GoodsCategoryPid(){
+        if ($this->goods_category_id==0){
+            $this->addError('goods_category_id','不能修改为顶级');
+        }
     }
     public function attributeLabels(){
         return [

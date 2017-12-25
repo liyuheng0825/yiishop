@@ -16,9 +16,24 @@ class GoodsCategory extends ActiveRecord{
         return[
             //>>字段规则
             [['name','intro','parent_id'],'required'],
-
-
+            ['parent_id','parentPid'],
         ];
+    }
+
+    //>>自定义验证规则
+    public function parentPid(){
+        //>>查询出父节点数据
+        $parend = GoodsCategory::findOne(['id' => $this->parent_id]);
+        //>>如果不是一个对象 不验证
+       if (!is_object($parend)){
+           return false;
+       }else{
+        //>>判断是否是他的子节点
+        if ($parend->isChildOf($this)){
+            //>>只处理验证不通过的情况
+            $this->addError('parent_id','不能修改子孙节点的子节点');
+        }
+       }
     }
     public function attributeLabels()
     {

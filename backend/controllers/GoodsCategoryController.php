@@ -53,36 +53,31 @@ class GoodsCategoryController extends Controller{
      * 修改商品分类
      */
     public function actionEdit($id){
-        $model = GoodsCategory::findOne($id);
+        $model = GoodsCategory::findOne(['id'=>$id]);
         $request = new Request();
         if ($request->isPost){
             $model->load($request->post());
             if ($model->validate()){
-                //>>不能提交给自己的子孙
-                if (GoodsCategory::findOne(['parent_id'=>$id])){
-                    //>>提示信息
-                    \Yii::$app->session->setFlash('error','此分类不能放在子级下面');
-                    return $this->redirect(['edit','id'=>$id]);
-                }else{
                     if ($model->parent_id){
                         //>>查询出父节点数据
                         $parend = GoodsCategory::findOne(['id' => $model->parent_id]);
                         //>>如果makeRoot的值不为0 证明创建子节点ID
                         $model->prependTo($parend);
+
                     }else{
                         //>>如果makeRoot的值为0 证明创建根节点ID
-                        $model->makeRoot();
+                        if ($model->getOldAttribute('parent_id')){
+                            $model->makeRoot();
+                        }else{
+                            $model->save();
+                        }
                     }
-
-                    $model->save();
                     //>>提示信息
                     \Yii::$app->session->setFlash('session','修改成功');
                     //跳转
                     return $this->redirect(['index']);
                 }
-
             }
-        }
         return $this->render('add',['model'=>$model]);
     }
 

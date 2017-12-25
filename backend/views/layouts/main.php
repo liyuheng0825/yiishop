@@ -35,20 +35,47 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => '商品品牌列表', 'url' => ['/brand/index']],
-        ['label' => '文章分类管理列表', 'url' => ['/article-category/index']],
-        ['label' => '文章列表', 'url' => ['/article/index']],
-        ['label' => '商品分类列表', 'url' => ['/goods-category/index']],
-        ['label' => '商品列表', 'url' => ['/goods/index']],
-        ['label' => '管理员列表', 'url' => ['/user/index']],
+        [
+            'label'=>'文章',
+            'items'=>[
+                ['label' => '文章分类', 'url' =>['/article-category/index']],
+
+                ['label' => '文章列表', 'url' => ['/article/index']],
+            ]
+        ],
+        [
+            'label'=>'商品',
+            'items'=>[
+                ['label' => '商品品牌列表', 'url' =>['/brand/index']],
+
+                ['label' => '商品分类列表', 'url' => ['/goods-category/index']],
+
+                ['label' => '商品列表', 'url' => ['/goods/index']],
+            ]
+        ],[
+            'label'=>'管理员',
+            'items'=>[
+                ['label' => '管理员列表', 'url' =>['/user/index']],
+
+                //['label' => '商品分类列表', 'url' => ['/goods-category/index']],
+
+                //['label' => '商品列表', 'url' => ['/goods/index']],
+            ]
+        ],
+        //['label' => '商品品牌列表', 'url' => ['/brand/index']],
+        //['label' => '文章分类管理列表', 'url' => ['/article-category/index']],
+        //['label' => '文章列表', 'url' => ['/article/index']],
+        //['label' => '商品分类列表', 'url' => ['/goods-category/index']],
+        //['label' => '商品列表', 'url' => ['/goods/index']],
+        //['label' => '管理员列表', 'url' => ['/user/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => '登录', 'url' => ['/user/login']];
     } else {
         $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
+            . Html::beginForm(['/user/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                '注销 (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
