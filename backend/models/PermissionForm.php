@@ -12,12 +12,14 @@ use yii\rbac\Permission;
 class PermissionForm extends Model{
     public $name;
     public $description;
+    //>>场景
+    const SCENARIO_ADD_PERMISSION = 'add';//>>定义添加常量场景
     //>>验证规则
     public function rules()
     {
         return [
             [['name','description'],'required'],
-            ['name','examine']
+            ['name','examine','on'=>self::SCENARIO_ADD_PERMISSION]//>>该规则只在添加 生效
         ];
     }
     public function attributeLabels()
@@ -28,7 +30,7 @@ class PermissionForm extends Model{
         ];
     }
     /**
-     * 判断是否存在
+     * 添加判断是否存在
      */
     public function examine(){
         if (\Yii::$app->authManager->getPermission($this->name)){
@@ -60,6 +62,14 @@ class PermissionForm extends Model{
         $permission = new Permission();
         $permission->name = $this->name;
         $permission->description = $this->description;
+        //>>规则
+        if ($name != $this->name){
+            $p = \Yii::$app->authManager->getPermission($this->name);
+            if ($p){
+                $this->addError('name','路由已存在');
+                return false;
+            }
+        }
         return $authManager->update($name,$permission);
     }
 }

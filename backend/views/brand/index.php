@@ -1,5 +1,5 @@
 <h1>商品品牌列表</h1>
-<a href="<?=\yii\helpers\Url::to(['brand/add'])?>" class="btn btn-info" role="button">添加</a>
+
 <table class="table">
     <tr>
         <td>序号</td>
@@ -30,6 +30,7 @@
         </tr>
     <?php endforeach;?>
 </table>
+<a href="<?=\yii\helpers\Url::to(['brand/add'])?>" class="btn btn-info btn-lg btn-block" role="button">添加</a>
 <script type="text/javascript">
     $("table").on('click','tr td #delete',function () {
         var result = confirm("确定删除吗?");

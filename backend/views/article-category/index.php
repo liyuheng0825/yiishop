@@ -1,5 +1,5 @@
 <h1>文章分类列表</h1>
-<a href="<?=\yii\helpers\Url::to(['article-category/add'])?>" class="btn btn-info" role="button">添加</a>
+
 <table class="table">
     <tr>
         <td>序号</td>
@@ -25,6 +25,7 @@
         </tr>
     <?php endforeach;?>
 </table>
+<a href="<?=\yii\helpers\Url::to(['article-category/add'])?>" class="btn btn-info btn-lg btn-block" role="button">添加</a>
 <?php
 $js =
     <<<JS

@@ -9,6 +9,7 @@ class User extends ActiveRecord implements IdentityInterface {
     /*public $password;
     public $password_a;
     public $password_b;*/
+    public $role;//>>查询所有角色
     public function attributeLabels()
     {
         return [
@@ -17,6 +18,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'password_reset_token'=>'确认密码',
             'email'=>'邮箱',
             'status'=>'状态',
+            'role'=>'角色/身份',
            /*'password'=>'原密码',
             'password_a'=>'新密码',
             'password_b'=>'确认密码',*/
@@ -35,6 +37,7 @@ class User extends ActiveRecord implements IdentityInterface {
             ['email', 'unique'],//>>唯一
             //['password_reset_token','detectionPwd'],//>>两次密码一致
             [['email'],'match','pattern'=>'/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/','message'=>'邮箱格式错误'],//>>邮箱格式
+            ['role', 'default', 'value' => null]
            // [['password_hash'],'match','pattern'=>'/^[a-zA-Z0-9]{6,20}+$/','message'=>'密码6-20位'],//>>密码格式
             //[['username'],'match','pattern'=>'/^[\u4e00-\u9fff\w]{5,16}$/','message'=>'5-16位由字母、数字、_或汉字组成'],//>>账号
             /*['password','Ppassword'],//>>修改查询原密码是否正确

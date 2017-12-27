@@ -4,8 +4,11 @@ use backend\models\EditPassword;
 use backend\models\Login;
 use backend\models\LoginForm;
 use backend\models\User;
+use backend\models\UserRole;
 use yii\captcha\CaptchaAction;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use yii\rbac\Role;
 use yii\web\Controller;
 use yii\web\Request;
 
@@ -19,7 +22,7 @@ class UserController extends Controller{
      * 显示管理员列表
      */
     public function actionIndex(){
-        $rows = User::find()->where(['>','status','0'])->all();
+        $rows = User::find()->all();
         return $this->render('index',['rows'=>$rows]);
     }
     /**
@@ -28,6 +31,11 @@ class UserController extends Controller{
     public function actionAdd(){
        $model =  new User();
        $request = new Request();
+       //>>查询所有角色
+        $authManager = \Yii::$app->authManager;
+        $roles = $authManager->getRoles();
+        //>>转换成数组
+        $role=ArrayHelper::map($roles,'name','description');
        if ($request->isPost){
            $model->load($request->post());
            if ($model->validate()){
@@ -40,7 +48,16 @@ class UserController extends Controller{
                //>>处理cookie值 随机生成32为字符串
                $model->auth_key = md5(uniqid(microtime(true),true));
                //>>执行保存
-               $model->save();
+               $model->save(false);
+               //>>执行权限添加
+               if ($model->role){
+                   //>>查询角色对象
+                   foreach ($model->role as $val){
+                       $part= $authManager->getRole($val);
+                       //>>保存角色到id
+                       $authManager->assign($part,$model->id);
+                   }
+               }
                //>>提示信息
                \Yii::$app->session->setFlash('session','添加成功');
                //跳转
@@ -49,40 +66,53 @@ class UserController extends Controller{
                var_dump($model->getErrors());exit;
            }*/
        }
-       return $this->render('add',['model'=>$model]);
+       return $this->render('add',['model'=>$model,'role'=>$role]);
     }
     /**
-     * 修改用户信息
+     * 修改用户角色
      */
-    /*public function actionEdit($id){
-       $model =  User::findOne(['id'=>$id]);
+    public function actionEdit(){
+        $id = \Yii::$app->request->get('id');
+        $model = new UserRole();
+        $authManager = \Yii::$app->authManager;
+        //>>查询出该用户的角色
+        $role = $authManager->getRolesByUser($id);
+        $role = ArrayHelper::map($role,'description','name');
+        $p = array_values($role);//>>转换成索引数组
+        $model->role=$p;//>>回显
+        //>>请求组件
         $request = new Request();
         if ($request->isPost){
             $model->load($request->post());
             if ($model->validate()){
-                //>>更新时间
-                $model->updated_at = time();
-                //>>处理密码
-                $model->password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
-                $model->save();
-                //>>提示信息
-                \Yii::$app->session->setFlash('session','添加成功');
-                //跳转
-                return $this->redirect(['index']);
-            }/*else{
-                var_dump($model->getErrors());exit;
+                if ($model->update($id)){
+                    //>>提示信息
+                    \Yii::$app->session->setFlash('session','修改成功');
+                    //跳转
+                    return $this->redirect(['index']);
+                }
             }
         }
-        return $this->render('add',['model'=>$model]);
-    }*/
+        //>>查询所有角色
+        $authManager = \Yii::$app->authManager;
+        $roles = $authManager->getRoles();
+        //>>转换成数组
+        $roles=ArrayHelper::map($roles,'name','description');
+
+        return $this->render('role',['model'=>$model,'role'=>$roles]);
+    }
     /**
-     * 删除
+     * 删除(修改状态)
      * @param $id
      */
     public function actionDelete(){
         $id= $_POST['id'];
         $model = User::findOne($id);
-        $model->status = 0;
+        if($model->status == 0){
+            $model->status = 1;
+        }elseif($model->status == 1){
+            $model->status = 0;
+        }
         if($model->save(false)){
             echo 1;
         }else{
@@ -134,7 +164,7 @@ class UserController extends Controller{
     /**
      * 过滤
      */
-    public function behaviors(){
+    /*public function behaviors(){
         return[
             'acf'=>[
                 'class'=>AccessControl::className(),
@@ -155,7 +185,7 @@ class UserController extends Controller{
                 ]
             ]
         ];
-    }
+    }*/
     /**
      * 修改密码
      */
@@ -169,6 +199,7 @@ class UserController extends Controller{
                 //>>获取登录后user所有信息
                 $user = User::findOne(['id'=>$id]);
                 $user->password_hash = \Yii::$app->security->generatePasswordHash($model->password_a);
+                $user->updated_at = time();
                 $user->save(false);
                 //跳转
                 return $this->redirect(['logout']);
@@ -176,5 +207,16 @@ class UserController extends Controller{
         }
         return $this->render('edit_password',['model'=>$model]);
     }
-
+    /**
+     * 重置密码
+     */
+    public function actionResetPassword(){
+        $id = \Yii::$app->request->post('id');
+        $model = User::findOne(['id'=>$id]);
+        $model->password_hash=\Yii::$app->security->generatePasswordHash(123456);
+        $model->updated_at = time();
+        if($model->save(false)){
+            return 1;
+        }
+    }
 }

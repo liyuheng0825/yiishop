@@ -1,5 +1,5 @@
 <h1>角色/身份列表</h1>
-<a href="<?=\yii\helpers\Url::to(['rbac/add-role'])?>" class="btn btn-info" role="button">添加</a>
+
 <table class="table">
     <tr>
         <td>角色/身份</td>
@@ -14,6 +14,7 @@
         </tr>
     <?php endforeach;?>
 </table>
+<a href="<?=\yii\helpers\Url::to(['rbac/add-role'])?>" class="btn btn-danger btn-lg btn-block" role="button">添加</a>
 <?php
 $js =
     <<<JS
@@ -24,7 +25,7 @@ $js =
             var name = $(this).attr('value');
             //无刷新删除
            $(this).parents("tr").remove();
-            $.post('delete',{"name":name},function (result) {
+            $.post('delete-role',{"name":name},function (result) {
                 if(result>0){
                    alert('删除成功');
                }else {

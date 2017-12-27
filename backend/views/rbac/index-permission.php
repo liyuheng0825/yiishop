@@ -6,7 +6,7 @@ $this->registerJsFile('http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js
 
 
 <h1>权限列表</h1>
-<a href="<?=\yii\helpers\Url::to(['rbac/add'])?>" class="btn btn-info" role="button">添加</a>
+
     <div id="container">
     <table id="example" class="table table-striped table-bordered">
     <thead>
@@ -26,6 +26,7 @@ $this->registerJsFile('http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js
     <?php endforeach;?>
         </tbody>
 </table>
+        <a href="<?=\yii\helpers\Url::to(['rbac/add'])?>" class="btn btn-info btn-lg btn-block" role="button">添加</a>
     </div>
 <?php
 $js =
