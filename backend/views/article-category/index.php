@@ -1,3 +1,4 @@
+<h1>文章分类列表</h1>
 <a href="<?=\yii\helpers\Url::to(['article-category/add'])?>" class="btn btn-info" role="button">添加</a>
 <table class="table">
     <tr>

@@ -1,3 +1,4 @@
+<h1>商品添加</h1>
 <?php
 $form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name')->textInput();//>>名字

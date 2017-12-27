@@ -1,3 +1,4 @@
+<h1>商品列表</h1>
 <a href="<?=\yii\helpers\Url::to(['goods/add'])?>" class="btn btn-info" role="button">添加</a>
 <form action="" method="post">
     <input type="text" name="name" placeholder="商品名称" class="btn">

@@ -1,3 +1,4 @@
+<h1>商品品牌列表</h1>
 <a href="<?=\yii\helpers\Url::to(['brand/add'])?>" class="btn btn-info" role="button">添加</a>
 <table class="table">
     <tr>

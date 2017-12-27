@@ -1,3 +1,4 @@
+<h1>文章分类添加</h1>
 <?php
 $form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name')->textInput();//>>名字

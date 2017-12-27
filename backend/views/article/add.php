@@ -1,4 +1,5 @@
 <?php
+echo '<h1>添加文章</h1>';
 $form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name')->textInput();//>>文章名称
 echo $form->field($model,'intro')->textarea();//>>简介

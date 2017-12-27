@@ -2,12 +2,11 @@
 namespace backend\models;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-
 /*
  * 管理员模型
  */
 class User extends ActiveRecord implements IdentityInterface {
-/*    public $password;
+    /*public $password;
     public $password_a;
     public $password_b;*/
     public function attributeLabels()
@@ -18,7 +17,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'password_reset_token'=>'确认密码',
             'email'=>'邮箱',
             'status'=>'状态',
-/*            'password'=>'原密码',
+           /*'password'=>'原密码',
             'password_a'=>'新密码',
             'password_b'=>'确认密码',*/
         ];
@@ -30,33 +29,36 @@ class User extends ActiveRecord implements IdentityInterface {
     public function rules()
     {
         return [
-            [['username','password_hash','email','status'],'required'],
+            [['username','password_hash','email','status'],'required'],//>>不能为空
+            //[['password','password_a','password_b'],'exist'],//>>存在
             ['username', 'unique'],//>>唯一
             ['email', 'unique'],//>>唯一
             //['password_reset_token','detectionPwd'],//>>两次密码一致
-            //[['email'],'match','pattern'=>'/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/','message'=>'邮箱格式错误'],//>>邮箱格式
+            [['email'],'match','pattern'=>'/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/','message'=>'邮箱格式错误'],//>>邮箱格式
            // [['password_hash'],'match','pattern'=>'/^[a-zA-Z0-9]{6,20}+$/','message'=>'密码6-20位'],//>>密码格式
             //[['username'],'match','pattern'=>'/^[\u4e00-\u9fff\w]{5,16}$/','message'=>'5-16位由字母、数字、_或汉字组成'],//>>账号
-//            ['password','Ppassword'],//>>修改查询原密码是否正确
-//            ['password_b','Password'],//判断修改的两次密码是否一致
+            /*['password','Ppassword'],//>>修改查询原密码是否正确
+            ['password_b','detectionPwd'],//判断修改的两次密码是否一致*/
         ];
     }
     /**
      * 验证密码是否一致
      */
-//    public function detectionPwd(){
-//        if ($this->password_hash!=$this->password_reset_token){
-//            $this->addError('password_reset_token','两次输入密码不一致');
-//        }
-//    }
+/*    public function detectionPwd(){
+        //var_dump($this->password_a!=$this->password_b);die;
+        if ($this->password_a!=$this->password_b){
+            $this->addError('password_b','新密码不一致');
+        }
+    }*/
 //    /**
 //     * 修改查询原密码是否一致
 //     */
-//    public function Ppassword(){
-//        if(!\Yii::$app->security->validatePassword($this->password,$this->password_hash)){
-//            $this->addError('password','原密码错误');
-//        }
-//    }
+/*    public function Ppassword(){
+        //var_dump($this->password,$this->password_hash);die;
+        if(!\Yii::$app->security->validatePassword($this->password,$this->password_hash)){
+           $this->addError('password','原密码错误');
+        }
+    }*/
 //    /**
 //     * 修改判断两次密码是否一致
 //     */
@@ -114,7 +116,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+        return $this->auth_key;//>>自动登录
     }
 
     /**
@@ -127,6 +129,6 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+       return $this->getAuthKey() === $authKey;//>>自动登录接口
     }
 }

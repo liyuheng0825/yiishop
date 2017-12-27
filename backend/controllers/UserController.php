@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\models\EditPassword;
 use backend\models\Login;
 use backend\models\LoginForm;
 use backend\models\User;
@@ -36,21 +37,24 @@ class UserController extends Controller{
                $model->updated_at = time();
                //>>处理密码
                $model->password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
+               //>>处理cookie值 随机生成32为字符串
+               $model->auth_key = md5(uniqid(microtime(true),true));
+               //>>执行保存
                $model->save();
                //>>提示信息
                \Yii::$app->session->setFlash('session','添加成功');
                //跳转
                return $this->redirect(['index']);
-           }else{
+           }/*else{
                var_dump($model->getErrors());exit;
-           }
+           }*/
        }
        return $this->render('add',['model'=>$model]);
     }
     /**
      * 修改用户信息
      */
-    public function actionEdit($id){
+    /*public function actionEdit($id){
        $model =  User::findOne(['id'=>$id]);
         $request = new Request();
         if ($request->isPost){
@@ -65,12 +69,12 @@ class UserController extends Controller{
                 \Yii::$app->session->setFlash('session','添加成功');
                 //跳转
                 return $this->redirect(['index']);
-            }else{
+            }/*else{
                 var_dump($model->getErrors());exit;
             }
         }
         return $this->render('add',['model'=>$model]);
-    }
+    }*/
     /**
      * 删除
      * @param $id
@@ -134,23 +138,43 @@ class UserController extends Controller{
         return[
             'acf'=>[
                 'class'=>AccessControl::className(),
-                'only'=>['actions'],//>>验证码 都能访问
+                //'only'=>['captcha'],//>>验证码 都能访问
                 //规则 不需要登录
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['login'],
-                        'roles'=>['?'],
+                        'actions'=>['index','captcha','login'],
+                        'roles'=>['?','@'],
                     ],
                     //登录后访问
                     [
                         'allow'=>true,
-                        'actions'=>['index'],
+                        'actions'=>['add','edit','delete','logout','edit-password'],
                         'roles'=>['@'],
                     ]
                 ]
             ]
         ];
+    }
+    /**
+     * 修改密码
+     */
+    public function actionEditPassword(){
+        $model = new EditPassword();
+        $request = new Request();
+        if ($request->isPost){
+            $model->load($request->post());
+            if ($model->validate()){
+                $id = \Yii::$app->user->identity->id;
+                //>>获取登录后user所有信息
+                $user = User::findOne(['id'=>$id]);
+                $user->password_hash = \Yii::$app->security->generatePasswordHash($model->password_a);
+                $user->save(false);
+                //跳转
+                return $this->redirect(['logout']);
+            }
+        }
+        return $this->render('edit_password',['model'=>$model]);
     }
 
 }

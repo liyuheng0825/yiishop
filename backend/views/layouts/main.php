@@ -53,9 +53,18 @@ AppAsset::register($this);
                 ['label' => '商品列表', 'url' => ['/goods/index']],
             ]
         ],[
+            'label'=>'RBAC权限',
+            'items'=>[
+                ['label' => '权限列表', 'url' =>['/rbac/index']],
+
+                ['label' => '角色列表', 'url' => ['/rbac/index-role']],
+            ]
+        ],
+        [
             'label'=>'管理员',
             'items'=>[
                 ['label' => '管理员列表', 'url' =>['/user/index']],
+                ['label' => '修改密码', 'url' =>['/user/edit-password']],
 
                 //['label' => '商品分类列表', 'url' => ['/goods-category/index']],
 

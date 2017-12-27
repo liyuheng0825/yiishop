@@ -1,4 +1,4 @@
-
+<h1>管理员列表</h1>
 <a href="<?=\yii\helpers\Url::to(['user/add'])?>" class="btn btn-info" role="button">添加</a>
 <table class="table">
     <tr>
@@ -22,7 +22,7 @@
         <td><?=date('Y-m-d H:i',$row->updated_at)?></td>
         <td><?=date('Y-m-d H:i',$row->last_login_time)?></td>
         <td><?=$row->last_login_ip?></td>
-        <td><a href="#"  class="btn btn-default" role="button" id="delete" value="<?=$row['id']?>">删除</a><a href="<?=\yii\helpers\Url::to(['user/edit','id'=>$row->id])?>"  class="btn btn-default" role="button">修改</a></td>
+        <td><a href="#"  class="btn btn-default" role="button" id="delete" value="<?=$row['id']?>">删除</a><!--<a href="<?/*=\yii\helpers\Url::to(['user/edit','id'=>$row->id])*/?>"  class="btn btn-default" role="button">修改</a>--></td>
     </tr>
 <?php endforeach;?>
 </table>

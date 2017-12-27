@@ -1,4 +1,5 @@
 <?php
+echo '<h1>添加管理员</h1>';
 $form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'username')->textInput();
 echo $form->field($model,'password_hash')->passwordInput();
