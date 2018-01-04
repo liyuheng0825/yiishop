@@ -150,7 +150,7 @@
                     <li class="star"><span>商品评分：</span> <strong></strong><a href="">(此商品游览<?php $redis = new Redis(); $redis->connect('127.0.0.1');
                            echo $redis->get($row->id.'hits');?>人)</a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
                 </ul>
-                <form action="" method="post" class="choose">
+                <form action="<?=\yii\helpers\Url::to(['cart/add-cart'])?>" method="post" class="choose">
                     <ul>
 
                         <li>
@@ -159,6 +159,15 @@
                                 <dd>
                                     <a href="javascript:;" id="reduce_num"></a>
                                     <input type="text" name="amount" value="1" class="amount"/>
+                                    <input type="hidden" name="goods_id" value="<?=$row->id?>">
+                                    <input type="hidden" name="member_id" value="<?php
+                                    if (Yii::$app->user->isGuest){
+                                        $time = date('Ymd',time());
+                                        echo $time;
+                                    }else{
+                                        echo Yii::$app->user->identity->id;
+                                    }
+                                    ?>">
                                     <a href="javascript:;" id="add_num"></a>
                                 </dd>
                             </dl>

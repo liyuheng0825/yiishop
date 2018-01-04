@@ -147,7 +147,7 @@
 			<div class="cart fl">
 				<dl>
 					<dt>
-						<a href="">去购物车结算</a>
+						<a href="<?=\yii\helpers\Url::to(['cart/index'])?>">去购物车结算</a>
 						<b></b>
 					</dt>
 					<dd>

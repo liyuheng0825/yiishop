@@ -4,9 +4,11 @@ use backend\models\GoodsCategory;
 use backend\models\GoodsGallery;
 use frontend\models\Goods;
 use frontend\models\GoodsIntro;
+use frontend\models\Hits;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\Request;
 
 class GoodsListController extends Controller{
     /**
@@ -89,13 +91,24 @@ class GoodsListController extends Controller{
      * @return string
      */
     public function actionGoods($id){
+        //>>记录点击数
+        $model = Hits::findOne(['goods_id'=>$id]);
+        if ($model){//如果该商品游览记录存在
+            $model->hits=$model->hits+1;
+            $model->save(false);
+        }else{//如果该商品的游览记录不存在
+            $model = new Hits();
+            $model->goods_id=$id;
+            $model->hits=1;
+            $model->save(false);
+        }
+        //>>缓存
         $redis = new \Redis();
         $redis->connect('127.0.0.1');
         $hits = $redis->get($id.'hits');//>>取
-        if ($hits){//>>存在
-            $redis->set($id.'hits',$hits+1);
-        }else{//>>不存在
-            $redis->set($id.'hits',1);
+        if ($hits==false){//>>如果缓存不存在 那么就重新保存缓存 并且设置过期时间
+            $m = Hits::findOne(['goods_id'=>$id]);
+            $redis->set($id.'hits',$m->hits,10);//>>每10秒更新缓存
         }
         $row = Goods::findOne(['id'=>$id]);
         //var_dump($row->name);die;
