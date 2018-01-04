@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\LoginForm;
 use backend\models\PermissionForm;
 use backend\models\RoleForm;
@@ -167,5 +168,12 @@ class RbacController extends Controller{
         }else{
             return 0;
         }
+    }
+    public function behaviors(){
+        return[
+            'time'=>[
+                'class'=>RbacFilter::className(),
+            ],
+        ];
     }
 }

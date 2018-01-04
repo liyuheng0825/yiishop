@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
@@ -125,5 +126,13 @@ class ArticleController extends Controller{
             }
         }
         return $this->render('add',['model'=>$model,'articlecategor_id'=>$articlecategor_id,'article_detail'=>$article_detail]);
+    }
+    public function behaviors(){
+        return[
+            'time'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['upload'],
+            ],
+        ];
     }
 }

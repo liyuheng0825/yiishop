@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Category;
 use backend\models\Goods;
 use backend\models\GoodsCategory;
@@ -93,5 +94,13 @@ class GoodsCategoryController extends Controller{
             GoodsCategory::deleteAll(['id'=>$id]);
             return 1;
         }
+    }
+    public function behaviors(){
+        return[
+            'time'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['uploader'],
+            ],
+        ];
     }
 }

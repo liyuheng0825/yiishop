@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\Article;
 use backend\models\Brand;
 use backend\models\Goods;
@@ -93,6 +94,7 @@ class GoodsController extends Controller{
             $model->load($request->post());
             $goods_intro->load($request->post());
             if ($model->validate()){
+                    $model->add_time=time();
                     $model->save();
                     $goods_intro->goods_id=$model->id;
                     $goods_intro->save(false);
@@ -130,6 +132,9 @@ class GoodsController extends Controller{
         return [
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
+                'config'=>[
+                    'imageUrlPrefix'=>"http://admin.yiishop.com",//>>前台访问后台页面
+                ]
             ]
         ];
     }
@@ -216,10 +221,9 @@ class GoodsController extends Controller{
             if ($model->validate()){
                     $model->status=1;
                     $model->save();
-                    $goods_intro->goods_id=$model->id;
                     $goods_intro->save(false);
                     //>>提示
-                    \Yii::$app->session->setFlash('success','添加成功');
+                    \Yii::$app->session->setFlash('success','修改成功');
                     //>>跳转
                     return $this->redirect(['goods/index']);
 
@@ -298,5 +302,13 @@ class GoodsController extends Controller{
         }else{
             echo 0;
         };
+    }
+    public function behaviors(){
+        return[
+            'time'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['uploader','upload','add-photo'],
+            ],
+        ];
     }
 }

@@ -24,6 +24,27 @@ class User extends ActiveRecord implements IdentityInterface {
             'password_b'=>'确认密码',*/
         ];
     }
+    public function Menus(){
+        $menuItems = [];
+        $menus = Menu::find()->where(['previous_menu'=>0])->all();
+        //>>找顶级分类
+        foreach($menus as $menu){
+            $items = Menu::find()->where(['previous_menu'=>$menu->id])->all();
+            $i=[];
+            //>>找子类
+            foreach ($items as $item){
+                //>>如果该用户没有菜单操作权限就不显示菜单
+                if (\Yii::$app->user->can($item->route)){
+                    $i[]=['label'=>$item->name,'url'=>[$item->route]];
+                }
+            }
+            if ($i){//>>如果没有子菜单就不显示
+                $menuItems[]=['label'=>$menu->name,'items'=>$i];
+            }
+
+        }
+        return $menuItems;
+    }
     /**
      * 验证规则
      * @return array

@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\EditPassword;
 use backend\models\Login;
 use backend\models\LoginForm;
@@ -123,8 +124,8 @@ class UserController extends Controller{
      * 登录
      */
     public function actionLogin(){
-       $model =  new LoginForm();
-       $request = new Request();
+        $model =  new LoginForm();
+        $request = new Request();
         if($request->isPost){
             $model->load($request->post());
             if($model->login()){
@@ -135,7 +136,7 @@ class UserController extends Controller{
                 return $this->redirect(['index']);
             }
         }
-       return $this->render('login',['model'=>$model]);
+        return $this->render('login',['model'=>$model]);
     }
     /**
      * 验证码
@@ -218,5 +219,13 @@ class UserController extends Controller{
         if($model->save(false)){
             return 1;
         }
+    }
+    public function behaviors(){
+        return[
+            'time'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha']
+            ],
+        ];
     }
 }

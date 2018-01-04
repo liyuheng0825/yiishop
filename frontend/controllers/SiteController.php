@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\models\GoodsCategory;
+use frontend\models\Member;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -12,12 +14,14 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\Request;
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+
     /**
      * @inheritdoc
      */
@@ -61,6 +65,8 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'minLength'=>4,
+                'maxLength'=>4,
             ],
         ];
     }
@@ -72,29 +78,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         return $this->render('index');
+
     }
+
 
     /**
      * Logs in a user.
      *
      * @return mixed
      */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
 
     /**
      * Logs out the current user.
@@ -104,8 +99,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
-        return $this->goHome();
+        return $this->redirect(['index']);
     }
 
     /**
@@ -210,4 +204,6 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
 }

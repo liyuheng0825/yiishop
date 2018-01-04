@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\Brand;
 use yii\web\Controller;
 use yii\web\Request;
@@ -138,5 +139,13 @@ class BrandController extends Controller{
             }
             //=========================================
         }
+    }
+    public function behaviors(){
+        return[
+            'time'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['upload'],
+            ],
+        ];
     }
 }

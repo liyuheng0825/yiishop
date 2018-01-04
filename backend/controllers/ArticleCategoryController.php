@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\ArticleCategory;
 use backend\models\Brand;
 use yii\web\Controller;
@@ -88,5 +89,13 @@ class ArticleCategoryController extends Controller{
         }else{
             echo 0;
         };
+    }
+    public function behaviors(){
+        return[
+            'time'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['uploader'],
+        ],
+        ];
     }
 }

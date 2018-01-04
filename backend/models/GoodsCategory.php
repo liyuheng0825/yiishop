@@ -88,7 +88,6 @@ class GoodsCategory extends ActiveRecord{
         //返回分类数据
         return $categoryResult;
     }
-
     /**
      * 找儿子的方法
      * @param $categorys

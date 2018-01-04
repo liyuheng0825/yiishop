@@ -32,7 +32,7 @@ return [
             'identityClass' => 'backend\models\User',//>>user接口地址
             'enableAutoLogin' => true, //>>使用自动登录
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-            'loginUrl' => ['/user/login'],//>>没权限跳转到指定页面
+            'loginUrl' => ['user/login'],//>>没权限跳转到指定页面
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend

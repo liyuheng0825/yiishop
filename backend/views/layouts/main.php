@@ -28,19 +28,23 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => '一叶知秋',
+        'brandLabel' => '水果之家后台系统',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
+
+
+
+    /*$menuItems = [
         [
             'label'=>'文章',
             'items'=>[
-                ['label' => '文章分类', 'url' =>['/article-category/index']],
-
-                ['label' => '文章列表', 'url' => ['/article/index']],
+                ['label' => '文章分类', 'url' =>['/article-category/index']
+                ],
+                ['label' => '文章列表', 'url' => ['/article/index']
+                ],
             ]
         ],
         [
@@ -61,7 +65,13 @@ AppAsset::register($this);
             ]
         ],
         [
-            'label'=>'管理员',
+            'label'=>'菜单管理',
+            'items'=>[
+                ['label' => '菜单列表', 'url' =>['/menu/index']],
+            ]
+        ],
+        [
+            'label'=>'管理员中心',
             'items'=>[
                 ['label' => '管理员列表', 'url' =>['/user/index']],
                 ['label' => '修改密码', 'url' =>['/user/edit-password']],
@@ -71,16 +81,19 @@ AppAsset::register($this);
                 //['label' => '商品列表', 'url' => ['/goods/index']],
             ]
         ],
+
         //['label' => '商品品牌列表', 'url' => ['/brand/index']],
         //['label' => '文章分类管理列表', 'url' => ['/article-category/index']],
         //['label' => '文章列表', 'url' => ['/article/index']],
         //['label' => '商品分类列表', 'url' => ['/goods-category/index']],
         //['label' => '商品列表', 'url' => ['/goods/index']],
         //['label' => '管理员列表', 'url' => ['/user/index']],
-    ];
+    ];*/
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '登录', 'url' => ['/user/login']];
     } else {
+        $menuItems = \Yii::$app->user->identity->Menus();//>>调用user里面的菜单
         $menuItems[] = '<li>'
             . Html::beginForm(['/user/logout'], 'post')
             . Html::submitButton(
