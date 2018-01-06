@@ -5,7 +5,13 @@
 */
 
 $(function(){
-	
+    //总计金额
+    var total = 0;
+    $(".col5 span").each(function(){
+        total += parseFloat($(this).text());
+    });
+
+    $("#total").text(total.toFixed(2));
 	//减少
 	$(".reduce_num").click(function(){
 		var amount = $(this).parent().find(".amount");
@@ -24,6 +30,10 @@ $(function(){
 		});
 
 		$("#total").text(total.toFixed(2));
+		//>>获取商品id和数量
+		var goods_id=$(this).closest('tr').attr('date-id');
+		//>>调用方法 传输数据
+		changeNum(goods_id,$(amount).val());
 	});
 
 	//增加
@@ -40,6 +50,10 @@ $(function(){
 		});
 
 		$("#total").text(total.toFixed(2));
+        //>>获取商品id和数量
+        var goods_id = $(this).closest('tr').attr('date-id');
+        //>>调用方法 传输数据
+        changeNum(goods_id,$(amount).val());
 	});
 
 	//直接输入
@@ -53,11 +67,23 @@ $(function(){
 		$(this).parent().parent().find(".col5 span").text(subtotal.toFixed(2));
 		//总计金额
 		var total = 0;
-		$(".col5 span").each(function(){
+		$(".col5 span").each(function (){
 			total += parseFloat($(this).text());
 		});
 
 		$("#total").text(total.toFixed(2));
-
+        //>>获取商品id和数量
+        var goods_id=$(this).closest('tr').attr('date-id');
+        //>>调用方法 传输数据
+        changeNum(goods_id,$(this).val());
 	});
+
+
 });
+//>>传值
+var changeNum = function (goods_id,amount) {
+	$.post("change",{goods_id:goods_id,amount:amount});
+};
+//>>执行一次计算总金额
+
+

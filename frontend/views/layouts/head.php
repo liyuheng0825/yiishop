@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="/style/login.css" type="text/css">
     <link rel="stylesheet" href="/style/cart.css" type="text/css">
 
+
+
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/js/header.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
@@ -30,6 +32,7 @@
     <script type="text/javascript" src="/js/jqzoom-core.js"></script>
     <script type="text/javascript" src="/js/list.js"></script>
     <script type="text/javascript" src="/js/cart1.js"></script>
+    <script type="text/javascript" src="/js/cart2.js"></script>
 </head>
 <body>
 <!-- 顶部导航 start -->

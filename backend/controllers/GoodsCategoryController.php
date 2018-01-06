@@ -95,6 +95,7 @@ class GoodsCategoryController extends Controller{
             return 1;
         }
     }
+    //>>附加行为嵌套集合
     public function behaviors(){
         return[
             'time'=>[

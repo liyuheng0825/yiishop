@@ -5,7 +5,7 @@
 <!-- 页面头部 start -->
 <div class="header w990 bc mt15">
     <div class="logo w990">
-        <h2 class="fl"><a href="index.html"><img src="/images/1.png" alt="商城" width="200"></a></h2>
+        <h2 class="fl"><a href="<?=\yii\helpers\Url::to('http://www.yiishop.com')?>"><img src="/images/1.png" alt="商城" width="200"></a></h2>
         <div class="flow fr">
             <ul>
                 <li class="cur">1.我的购物车</li>
@@ -43,7 +43,7 @@
     </table>
     <div class="cart_btn w990 bc mt10">
         <a href="<?=\yii\helpers\Url::to('http://www.yiishop.com')?>" class="continue">继续购物</a>
-        <a href="" class="checkout">结 算</a>
+        <a href="<?=\yii\helpers\Url::to(['cart/indent'])?>" class="checkout">结 算</a>
     </div>
 </div>
 <!-- 主体部分 end -->

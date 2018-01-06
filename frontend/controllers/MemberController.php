@@ -1,5 +1,6 @@
 <?php
 namespace frontend\controllers;
+use frontend\models\Cart;
 use frontend\models\LoginForm;
 use frontend\models\Member;
 use frontend\models\SignatureHelper;
@@ -34,6 +35,28 @@ class MemberController extends Controller{
             $model->load($request->post(),'');
             if ($model->login()){
                 //>>登录成功
+                $cookies = \Yii::$app->request->cookies;//>>读cookie
+                if ($cookies->has('cart')){//>>如果购物车存在
+                    $value = $cookies->getValue('cart');
+                    $cart = unserialize($value);//>>反序列化
+                    foreach ($cart as $id=>$amount){
+                        $model = Cart::find()->where(['goods_id'=>$id])->andWhere(['=','member_id',\Yii::$app->user->identity->id])->one();
+                        if ($model){
+                            //合并
+                            $model->amount=$model->amount+$amount;
+                            $model->save(false);
+                        }else{
+                            //添加
+                            $model = new Cart();
+                            $model->goods_id=$id;
+                            $model->amount=$amount;
+                            $model->member_id=\Yii::$app->user->identity->id;
+                            $model->save(false);
+                        }
+                    }
+                    //>>清除cookie
+                    \yii::$app->response->cookies->remove('cart');
+                }
                 //echo "<script>alert('登录成功');</script>";
                 return $this->redirect('http://www.yiishop.com');
             }
@@ -184,7 +207,7 @@ class MemberController extends Controller{
             $redis->set('code_'.$phone,$code,30*60);
             return 'true';
         }else{
-            var_dump($result);
+            var_dump($result);//>>错误 打印错误信息
         }
     }
 

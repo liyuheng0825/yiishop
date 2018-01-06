@@ -94,6 +94,7 @@ class GoodsListController extends Controller{
         //>>记录点击数
         $model = Hits::findOne(['goods_id'=>$id]);
         if ($model){//如果该商品游览记录存在
+            //Hits::updateAllCounters(['hits'=>1]);//>>更新计时器
             $model->hits=$model->hits+1;
             $model->save(false);
         }else{//如果该商品的游览记录不存在
