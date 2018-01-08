@@ -127,6 +127,7 @@ class GoodsListController extends Controller{
 
         //>>查询商品
         $goods = Goods::find()->where(['like','name',$name])->all();
+        //>>如果商品没有
         if (!$goods){
             return $this->renderPartial('error');
         }

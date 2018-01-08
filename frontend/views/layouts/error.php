@@ -36,7 +36,7 @@ $this->context->layout='error';
         <div class="col-md-8 col-md-offset-2">
 
             <h3> <i  class="fa fa-lightbulb-o fa-5x"></i> </h3>
-            <a href="#" class="btn btn-primary">GO TO HOME PAGE</a>
+            <a href="http://www.yiishop.com" class="btn btn-primary">GO TO HOME PAGE</a>
 
         </div>
 
