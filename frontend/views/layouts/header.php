@@ -78,7 +78,7 @@
 				<div class="search_form">
 					<div class="form_left fl"></div>
 					<form action="<?=\yii\helpers\Url::to(['goods-list/search'])?>" name="serarch" method="get" class="fl">
-						<input type="text" name="name" class="txt" /><input type="submit" class="btn" value="搜索"/>
+						<input type="text" name="name" class="txt" placeholder="请搜索商品关键字" /><input type="submit" class="btn" value="搜索"/>
 					</form>
 					<div class="form_right fl"></div>
 				</div>
