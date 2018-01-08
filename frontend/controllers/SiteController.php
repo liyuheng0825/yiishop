@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\actions\ErrorAction;
 use frontend\models\GoodsCategory;
 use frontend\models\Member;
 use Yii;
@@ -60,7 +61,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction',
+                'class' => ErrorAction::className()
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
