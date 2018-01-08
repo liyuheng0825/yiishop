@@ -127,6 +127,9 @@ class GoodsListController extends Controller{
 
         //>>查询商品
         $goods = Goods::find()->where(['like','name',$name])->all();
+        if (!$goods){
+            return $this->renderPartial('error');
+        }
         //>>拼接html
         $html='';
         foreach ($goods as $row){

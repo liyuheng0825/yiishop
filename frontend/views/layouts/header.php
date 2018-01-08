@@ -78,7 +78,7 @@
 				<div class="search_form">
 					<div class="form_left fl"></div>
 					<form action="<?=\yii\helpers\Url::to(['goods-list/search'])?>" name="serarch" method="get" class="fl">
-						<input type="text" name="name" class="txt" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
+						<input type="text" name="name" class="txt" /><input type="submit" class="btn" value="搜索"/>
 					</form>
 					<div class="form_right fl"></div>
 				</div>
@@ -195,4 +195,15 @@
 	<!-- 头部 end-->
 	
 	<div style="clear:both;"></div>
+    <script type="text/javascript">
+        $('.btn').prop('disabled','disabled');
+        $('.txt').on('keyup',function () {
+            var v=$(this).val();
+            if(v){
+                $('.btn').prop('disabled','');
+            }else {
+                $('.btn').prop('disabled','disabled');
+            }
+        })
+    </script>
 <?= $content ?>
