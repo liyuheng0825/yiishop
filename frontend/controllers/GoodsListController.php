@@ -119,6 +119,31 @@ class GoodsListController extends Controller{
         $intro = GoodsIntro::findOne(['goods_id'=>$id]);
         //var_dump($photo);die;
         return $this->render('goods',['photo'=>$photo,'intro'=>$intro,'row'=>$row]);
+    }
+    //>>搜索
+    public function actionSearch($name){
+        //>>查询商品
+        $goods = Goods::find()->where(['like','name',$name])->all();
+        //>>拼接html
+        $html='';
+        foreach ($goods as $row){
+            $html.='<li>';
+            $html.='<dl>';
+            $html.='<dt><a href="/goods-list/goods?id='.$row->id.'"><img src="'.$row->logo.'" alt="" /></a></dt>';
+            $html.=' <dd><a href="/goods-list/goods?id='.$row->id.'">'.$row->name.'</a></dt>';
+            $html.='<dd><strong>￥'.$row->shop_price.'/斤</strong></dt>';
+            $html.='<dd><a href="/goods-list/goods?id='.$row->id.'"><em>已有10人评价</em></a></dt>';
+            $html.='</dl>';
+            $html.='</li>';
+        }
+        //>>分页
+        $pager = new Pagination(
+            [
+                'defaultPageSize'=>3,
+                'totalCount'=> Goods::find()->where(['like','name',$name])->count(),
+            ]
+        );
 
+        return $this->render('list',['html'=>$html,'pager'=>$pager]);
     }
 }

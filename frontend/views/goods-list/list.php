@@ -1,7 +1,8 @@
 
-
+<link rel="stylesheet" href="/style/list.css" type="text/css">
 <!-- 列表主体 start -->
 <div class="list w1210 bc mt10">
+
     <!-- 面包屑导航 start -->
     <div class="breadcrumb">
         <h2>当前位置：<a href="">首页</a> > <a href="">电脑、办公</a></h2>

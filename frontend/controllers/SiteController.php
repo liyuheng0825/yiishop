@@ -61,6 +61,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
+                //>>修改错误提醒页面
                 'class' => ErrorAction::className()
             ],
             'captcha' => [

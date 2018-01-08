@@ -133,7 +133,7 @@ class GoodsController extends Controller{
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
                 'config'=>[
-                    'imageUrlPrefix'=>"http://admin.yiishop.com",//>>前台访问后台页面
+                    'imageUrlPrefix'=>"http://lyh.phpup.top",//>>前台访问后台页面
                 ]
             ]
         ];
