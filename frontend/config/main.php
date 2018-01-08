@@ -37,7 +37,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'error/error',
         ],
         //>>短信验证码
         'sms'=>[
