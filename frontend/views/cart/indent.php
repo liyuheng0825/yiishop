@@ -38,6 +38,9 @@
             <h3>收货人信息</h3>
             <form action="" method="post">
             <div class="address_info">
+                <?php if (!$address){
+                    echo "<a>添加收货地址</a>";
+                }?>
                 <p>
                     <?php foreach ($address as $row):?>
                 <input type="radio" value="<?=$row->id?>" name="address_id" <?=$row->state==1?'checked="checked"':''?>/><?=$row->recipients.' '.$row->tel.' '.$row->area.' '.$row->particular?></p>
