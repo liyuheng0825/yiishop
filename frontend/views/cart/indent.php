@@ -39,7 +39,7 @@
             <form action="" method="post">
             <div class="address_info">
                 <?php if (!$address){
-                    echo "<a href='http://lyh1.phpup.top/member/address'>添加收货地址</a>";
+                    echo "<a href='http://lyh1.phpup.top/member/address'><span style='color: red;font-size: 50px'>请添加收货地址</span></a>";
                 }?>
                 <p>
                     <?php foreach ($address as $row):?>
@@ -149,7 +149,7 @@
 
     <div class="fillin_ft">
         <p>应付总额：<strong id="money">￥<?=$money+10?>元</strong></p>
-        <button>提交订单</button>
+        <button <?php if (!$address){echo"disabled='disabled'";}?>>提交订单</button>
     </div>
     </form>
 </div>
@@ -191,7 +191,8 @@
        $('#money').html(k+'元');
        $('#zong').html(k);
        $('#yunfei').html(v);
-   })
+   });
+
 
 </script>
 <!-- 底部版权 end -->
