@@ -39,7 +39,7 @@
             <form action="" method="post">
             <div class="address_info">
                 <?php if (!$address){
-                    echo "<a>添加收货地址</a>";
+                    echo "<a herf='http://lyh1.phpup.top/member/address'>添加收货地址</a>";
                 }?>
                 <p>
                     <?php foreach ($address as $row):?>
