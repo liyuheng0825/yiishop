@@ -1,5 +1,6 @@
 
 <link rel="stylesheet" href="/style/list.css" type="text/css">
+<script type="text/javascript" src="/js/f62af892/bootstrap.js"></script>
 <!-- 列表主体 start -->
 <div class="list w1210 bc mt10">
 
@@ -274,15 +275,11 @@
 
         <!-- 分页信息 start -->
 
-        <!--\yii\widgets\LinkPager::widget([
+        <!--/*=\yii\widgets\LinkPager::widget([
             'pagination'=>$pager,
-            'firstPageLabel' => '首页',
-            'nextPageLabel'=>'下一页',
-            'prevPageLabel'=>'上一页',
-            'lastPageLabel' => '尾页',
-        ])-->
-
-        <!--<div class="page mt20">
+            'firstPageLabel' => '首页', 'nextPageLabel'=>'下一页', 'prevPageLabel'=>'上一页', 'lastPageLabel' => '尾页',
+        ])*/-->
+        <div class="page mt20">
             <a href="">首页</a>
             <a href="">上一页</a>
             <a href="">1</a>
@@ -296,7 +293,7 @@
 					<em>共8页&nbsp;&nbsp;到第 <input type="text" class="page_num" value="3"/> 页</em>
 					<a href="" class="skipsearch" href="javascript:;">确定</a>
 				</span>
-        </div>-->
+        </div>
         <!-- 分页信息 end -->
 
     </div>

@@ -47,6 +47,8 @@ class GoodsListController extends Controller{
             ]
         );
 
+
+
         return $this->render('list',['html'=>$html,'pager'=>$pager]);
     }
     /**
@@ -122,6 +124,7 @@ class GoodsListController extends Controller{
     }
     //>>搜索
     public function actionSearch($name){
+
         //>>查询商品
         $goods = Goods::find()->where(['like','name',$name])->all();
         //>>拼接html
