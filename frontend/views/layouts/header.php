@@ -72,7 +72,7 @@
 	<div class="header w1210 bc mt15">
 		<!-- 头部上半部分 start 包括 logo、搜索、用户中心和购物车结算 -->
 		<div class="logo w1210">
-			<h1 class="fl"><a href="<?=\yii\helpers\Url::to('http://www.yiishop.com')?>"><img src="/images/1.png" alt="京西商城" width="200"></a></h1>
+			<h1 class="fl"><a href="<?=\yii\helpers\Url::to('http://lyh1.phpup.top')?>"><img src="/images/1.png" alt="京西商城" width="200"></a></h1>
 			<!-- 头部搜索 start -->
 			<div class="search fl">
 				<div class="search_form">

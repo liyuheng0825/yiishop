@@ -39,12 +39,12 @@ class LoginForm extends Model{
             }else{
                 //密码不正确
                 echo "<script>alert('密码错误');</script>";
-                header("refresh:0;url=http://www.yiishop.com/member/register");die;
+                header("refresh:0;url=http://lyh1.phpup.top/member/register");die;
             }
         }else{
             //用户名不存在
             echo "<script>alert('用户名不存在');</script>";
-            header("refresh:0;url=http://www.yiishop.com/member/register");die;
+            header("refresh:0;url=http://lyh1.phpup.top/member/register");die;
         }
         return false;
     }

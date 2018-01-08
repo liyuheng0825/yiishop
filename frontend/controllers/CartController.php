@@ -282,14 +282,14 @@ class CartController extends Controller{
                     $transaction->rollBack();//>>回滚
                     //>>跳转
                     echo "<script>alert('该商品数量不足');</script>";
-                    header("refresh:0;url=http://www.yiishop.com/cart/index");die;
+                    header("refresh:0;url=http://lyh1.phpup.top/cart/index");die;
                 }
             }
             return $this->render('indent', ['address' => $address, 'html' => $html, 'expressage' => $expressage, 'payment' => $payment, 'quantity' => $quantity, 'money' => $money]);
             }else{
                 //>>该用户数购物车中没有数据
                 echo "<script>alert('购物车已经清空啦!请先购物.............');</script>";
-                header("refresh:0;url=http://www.yiishop.com");die;
+                header("refresh:0;url=http://lyh1.phpup.top/");die;
             }
         }
     }

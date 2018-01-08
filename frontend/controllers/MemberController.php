@@ -58,7 +58,7 @@ class MemberController extends Controller{
                     \yii::$app->response->cookies->remove('cart');
                 }
                 //echo "<script>alert('登录成功');</script>";
-                return $this->redirect('http://www.yiishop.com');
+                return $this->redirect('http://lyh1.phpup.top');
             }
         }
         return $this->render('register');
@@ -108,7 +108,7 @@ class MemberController extends Controller{
     //>>注销
     public function actionLogout(){
         \Yii::$app->user->logout();
-        return $this->redirect('http://www.yiishop.com');
+        return $this->redirect('http://lyh1.phpup.top');
     }
     //>>用户地址显示 及添加表单
     public function actionAddress(){
