@@ -229,7 +229,7 @@ class CartController extends Controller{
                 //>>支付方式名称
                 $model->payment_name = $pa->name;
                 //>>订单总金额
-                $model->total = $money;
+                $model->total = $money+$ex->freight;
                 //>>状态 待付款
                 $model->status = 1;
                 //>>第三方支付
@@ -304,7 +304,7 @@ class CartController extends Controller{
             return $this->redirect(['member/register']);//>>登录页面
         }else{
         //>>根据用户查询订单表
-        $order = Order::find()->where(['member_id'=>\Yii::$app->user->id])->all();
+        $order = Order::find()->where(['member_id'=>\Yii::$app->user->id])->orderBy('id desc')->all();
         //>>根据订单id查询订单商品
         $html='';
         foreach ($order as $or){

@@ -64,9 +64,9 @@
                     </thead>
                     <tbody>
                     <?php foreach ($expressage as $ex):?>
-                    <tr <?=$ex->id==1?'class="cur"':''?>>
+                    <tr <?=$ex->id==1?'class="cur"':''?> id="mytr">
                         <td>
-                            <input type="radio" name="delivery" value="<?=$ex->id?>" <?=$ex->id==1?'checked="checked"':''?> /><?=$ex->name?>
+                            <input type="radio" id="myinput" name="delivery" value="<?=$ex->id?>" <?=$ex->id==1?'checked="checked"':''?> much="<?=$ex->freight?>"/><?=$ex->name?>
                         </td>
                         <td>￥<?=$ex->freight?></td>
                         <td><?=$ex->standard?></td>
@@ -97,10 +97,6 @@
             </div>
         </div>
         <!-- 支付方式  end-->
-
-        <!-- 发票信息 start-->
-        <!-- 发票信息 end-->
-
         <!-- 商品清单 start -->
         <div class="goods">
             <h3>商品清单</h3>
@@ -128,16 +124,15 @@
                         <ul>
                             <li>
                                 <span><?=$quantity?>件商品，总商品金额：</span>
-                                <em>￥<?=$money?></em>
+                                <em id="myem"><?=$money?></em>
                             </li>
-
-                            <!--<li>
+                            <li>
                                 <span>运费：</span>
-                                <em>￥10.00</em>
-                            </li>-->
+                                <em id="yunfei">￥10.00</em>
+                            </li>
                             <li>
                                 <span>应付总额：</span>
-                                <em>￥<?=$money?></em>
+                                <em id="zong"><?=$money+10?></em>
                             </li>
                         </ul>
                     </td>
@@ -150,7 +145,7 @@
     </div>
 
     <div class="fillin_ft">
-        <p>应付总额：<strong>￥<?=$money?>元</strong></p>
+        <p>应付总额：<strong id="money">￥<?=$money+10?>元</strong></p>
         <button>提交订单</button>
     </div>
     </form>
@@ -183,6 +178,19 @@
         <a href=""><img src="/images/beian.gif" alt="" /></a>
     </p>
 </div>
+<script type="text/javascript">
+   $("table").on('click','td #myinput',function () {
+       //>>获取input的值
+       var v = $(this).attr('much');
+       //>>获取原来的总金额
+       var m=$('#myem').html();
+       var k = parseFloat(v)+parseFloat(m);
+       $('#money').html(k+'元');
+       $('#zong').html(k);
+       $('#yunfei').html(v);
+   })
+
+</script>
 <!-- 底部版权 end -->
 </body>
 </html>
