@@ -54,7 +54,7 @@
                             echo '[<a href="#">'.Yii::$app->user->identity->username.'</a>]
                         [<a href="'.\yii\helpers\Url::to(['member/logout']).'">注销</a>]
                         </li><li class="line">|</li>
-                        <li><a href="'.\yii\helpers\Url::to(['member/address']).'">我的订单</a></li>';
+                        <li><a href="'.\yii\helpers\Url::to(['cart/order-state']).'">我的订单</a></li>';
                         }
                         ?>
 					<li class="line">|</li>

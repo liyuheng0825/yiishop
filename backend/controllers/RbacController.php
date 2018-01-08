@@ -169,7 +169,7 @@ class RbacController extends Controller{
             return 0;
         }
     }
-
+    //>>RBAC组件
     public function behaviors(){
         return[
             'time'=>[
