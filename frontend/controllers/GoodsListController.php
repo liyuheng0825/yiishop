@@ -123,4 +123,10 @@ class GoodsListController extends Controller{
     public function actionA(){
         echo 'a';
     }
+    public function actionB(){
+        echo 'b';
+    }
+    public function actionC(){
+        echo'c';
+    }
 }
