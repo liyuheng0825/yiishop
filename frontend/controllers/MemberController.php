@@ -22,7 +22,7 @@ class MemberController extends Controller{
                $model->created_at = time();
                $model->save(false);
                echo "<script>alert('注册成功')</script>";
-               return $this->redirect(['site/index']);
+               return $this->redirect('http://lyh1.phpup.top');
            }
         }
         return $this->render('login');
