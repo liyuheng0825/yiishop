@@ -120,16 +120,4 @@ class GoodsListController extends Controller{
         //var_dump($photo);die;
         return $this->render('goods',['photo'=>$photo,'intro'=>$intro,'row'=>$row]);
     }
-    public function actionA(){
-        echo 'a';
-    }
-    public function actionB(){
-        echo 'b';
-    }
-    public function actionC(){
-        echo'c';
-    }
-    public function actionD(){
-        echo'c';
-    }
 }
