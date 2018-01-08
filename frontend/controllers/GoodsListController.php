@@ -119,5 +119,6 @@ class GoodsListController extends Controller{
         $intro = GoodsIntro::findOne(['goods_id'=>$id]);
         //var_dump($photo);die;
         return $this->render('goods',['photo'=>$photo,'intro'=>$intro,'row'=>$row]);
+
     }
 }
