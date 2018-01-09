@@ -154,7 +154,7 @@ class GoodsListController extends Controller{
 
         return $this->render('list',['html'=>$html,'pager'=>$pager]);
     }
-    //>>判断用户是否登录
+    //>>静态页面判断用户是否登录
     public function actionUser(){
     if (!\Yii::$app->user->isGuest){
         $result['a']=true;
@@ -165,11 +165,23 @@ class GoodsListController extends Controller{
         }
     return json_encode($result);
     }
-    //>>游览人数状态
+    //>>静态页面商品游览人数
     public function actionHist($id){
         $redis = new \Redis();
         $redis->connect('127.0.0.1');
         $times = $redis->incr('times_'.$id);
         return json_encode($times);
+    }
+    //>>每天凌晨3点执行
+    public function actionHistRedis(){
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $hits = Hits::find()->all();//>>获取所有商品的游览量
+        foreach ($hits as $h){
+            if ($redis->get('times_'.$h->goods_id)){
+                $h->hits=$redis->get('times_'.$h->goods_id);
+                $h->save(false);
+            }
+        }
     }
 }
