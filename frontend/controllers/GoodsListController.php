@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 use backend\models\GoodsCategory;
 use backend\models\GoodsGallery;
+use Codeception\Module\Redis;
 use frontend\models\Goods;
 use frontend\models\GoodsIntro;
 use frontend\models\Hits;
@@ -32,10 +33,10 @@ class GoodsListController extends Controller{
         foreach ($goods as $row){
             $html.='<li>';
             $html.='<dl>';
-            $html.='<dt><a href="/goods-list/goods?id='.$row->id.'"><img src="'.$row->logo.'" alt="" /></a></dt>';
-            $html.=' <dd><a href="/goods-list/goods?id='.$row->id.'">'.$row->name.'</a></dt>';
+            $html.='<dt><a href="/'.$row->id.'.html"><img src="'.$row->logo.'" alt="" /></a></dt>';
+            $html.=' <dd><a href="/'.$row->id.'.html">'.$row->name.'</a></dt>';
             $html.='<dd><strong>￥'.$row->shop_price.'/斤</strong></dt>';
-            $html.='<dd><a href="/goods-list/goods?id='.$row->id.'"><em>已有10人评价</em></a></dt>';
+            $html.='<dd><a href="/'.$row->id.'.html"><em>已有10人评价</em></a></dt>';
             $html.='</dl>';
             $html.='</li>';
         }
@@ -92,7 +93,7 @@ class GoodsListController extends Controller{
      * @param $id
      * @return string
      */
-    public function actionGoods($id){
+/*    public function actionGoods($id){
         //>>记录点击数
         $model = Hits::findOne(['goods_id'=>$id]);
         if ($model){//如果该商品游览记录存在
@@ -121,7 +122,7 @@ class GoodsListController extends Controller{
         $intro = GoodsIntro::findOne(['goods_id'=>$id]);
         //var_dump($photo);die;
         return $this->render('goods',['photo'=>$photo,'intro'=>$intro,'row'=>$row]);
-    }
+    }*/
     //>>搜索
     public function actionSearch($name){
 
@@ -152,5 +153,23 @@ class GoodsListController extends Controller{
         );
 
         return $this->render('list',['html'=>$html,'pager'=>$pager]);
+    }
+    //>>判断用户是否登录
+    public function actionUser(){
+    if (!\Yii::$app->user->isGuest){
+        $result['a']=true;
+        $result['b']=\Yii::$app->user->identity->username;
+        }else{
+            $result['a']=false;
+            $result['b']='';
+        }
+    return json_encode($result);
+    }
+    //>>游览人数状态
+    public function actionHist($id){
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $times = $redis->incr('times_'.$id);
+        return json_encode($times);
     }
 }

@@ -8,6 +8,7 @@ use backend\models\GoodsCategory;
 use backend\models\GoodsDayCount;
 use backend\models\GoodsGallery;
 use backend\models\GoodsIntro;
+use frontend\models\Hits;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
 use yii\data\Pagination;
@@ -113,7 +114,13 @@ class GoodsController extends Controller{
                         $gdc->count = $gdc->count + 1;;
                         $gdc->save();
                     }
-
+                    //>>游览量 默认1
+                    $hits = new Hits();
+                    $hits->goods_id = $model->id;
+                    $hits->hits = 1;
+                    $hits->save(false);
+                    //>>生成静态文件模板
+                    self::actionGoods($model->id);
                     //>>提示
                     \Yii::$app->session->setFlash('success','添加成功');
                     //>>跳转
@@ -123,6 +130,23 @@ class GoodsController extends Controller{
         }
 
      return $this->render('add',['model'=>$model,'goods_category_id'=>$goods_category_id,'article'=>$article,'goods_intro'=>$goods_intro]);
+    }
+    //>>生成静态文件
+    public function actionGoods($id){
+        $row = Goods::findOne(['id'=>$id]);
+        $hits = Hits::findOne(['goods_id'=>$id]);
+        //>>点击数保存到redis
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $redis->set('times_'.$id,$hits->hits);
+        //var_dump($row->name);die;
+        //>>商品相册
+        $photo = GoodsGallery::find()->where(['goods_id'=>$id])->all();
+        //>>商品详情
+        $intro = GoodsIntro::findOne(['goods_id'=>$id]);
+        //var_dump($photo);die;
+        $result = $this->renderPartial('goods',['photo'=>$photo,'intro'=>$intro,'row'=>$row,'hits'=>$hits]);
+        file_put_contents('../../frontend/web/'.$id.'.html',$result);
     }
     /**
      * UEditor 富文本编辑框
@@ -222,6 +246,8 @@ class GoodsController extends Controller{
                     $model->status=1;
                     $model->save();
                     $goods_intro->save(false);
+                    //>>生成静态文件模板
+                    self::actionGoods($model->id);
                     //>>提示
                     \Yii::$app->session->setFlash('success','修改成功');
                     //>>跳转
