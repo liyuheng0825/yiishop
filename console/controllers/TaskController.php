@@ -25,9 +25,9 @@ class TaskController extends Controller {
                     Goods::updateAllCounters(['stock'=>$goods->amount],['id'=>$goods->goods_id]);
                 }
             }
-            echo iconv('utf-8','gbk','清理完成').date('H:i:s')."\n";
+            echo '清理完成'.date('H:i:s')."\n";
             //>>每10秒执行一次
-            sleep(1);
+            sleep(10);
         }
     }
     //>>每天凌晨3点执行
@@ -41,6 +41,6 @@ class TaskController extends Controller {
                 $h->save(false);
             }
         }
-        echo '清理完成'.date('H:i:s');
+        echo '清理完成'.date('H:i:s')."\n";
     }
 }
