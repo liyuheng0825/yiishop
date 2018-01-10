@@ -198,12 +198,21 @@ class MemberController extends Controller{
     }
     //>>短信验证
     public function actionSms($phone){
+        //>>检查上一次手机号码发送的时间,间隔不能少于60秒
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        //>>ttl 获取key的剩余有效秒数
+        $ttl =$redis->ttl('code_'.$phone);
+        if ($ttl && $ttl>1800-60){
+            //>>上一次发送短信少于60秒
+            echo "<script>alert('距离上次发送时间不到60秒,请稍后再试!');</script>";
+            exit;
+        }
         $code = rand(1000,9999);
         $result = \Yii::$app->sms->send($phone,['code'=>$code]);
         if ($result->Code == 'OK'){
             //>>保存redis
-            $redis = new \Redis();
-            $redis->connect('127.0.0.1');
+
             $redis->set('code_'.$phone,$code,30*60);
             return 'true';
         }else{
