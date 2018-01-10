@@ -7,6 +7,7 @@ use frontend\models\Goods;
 use frontend\models\GoodsIntro;
 use frontend\models\Hits;
 use frontend\models\Order;
+use frontend\models\OrderGoods;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -191,8 +192,6 @@ class GoodsListController extends Controller{
      * */
     public function actionClean(){
         //>>零时修改php生命周期配置
-        set_time_limit(0);
-        while (true){//>>死循环 自动执行
             $orders = Order::find()->where(['status'=>1])->andWhere(['<','create_time',time()-24*3600])->all();
             foreach ($orders as $order){
                 $order->status = 0;
@@ -205,9 +204,6 @@ class GoodsListController extends Controller{
                 }
             }
             echo '待支付超时订单清理完成'.date('H:i:s')."\n";
-            //>>每10秒执行一次
-            sleep(10);
-        }
     }
 
 }
