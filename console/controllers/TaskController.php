@@ -25,7 +25,7 @@ class TaskController extends Controller {
                     Goods::updateAllCounters(['stock'=>$goods->amount],['id'=>$goods->goods_id]);
                 }
             }
-            echo '清理完成'.date('H:i:s')."\n";
+            echo '待支付超时订单清理完成'.date('H:i:s')."\n";
             //>>每10秒执行一次
             sleep(10);
         }
@@ -41,6 +41,6 @@ class TaskController extends Controller {
                 $h->save(false);
             }
         }
-        echo '清理完成'.date('H:i:s')."\n";
+        echo '点击量备份完毕'.date('H:i:s')."\n";
     }
 }
