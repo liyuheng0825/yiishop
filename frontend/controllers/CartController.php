@@ -282,6 +282,7 @@ class CartController extends Controller{
                                  ->setHtmlBody('<h1 style="color: red;">亲爱的'.\Yii::$app->user->identity->username.'您的订单已下单成功,请尽快支付哟!</h1>')//>>邮件内容
                                  ->send();
                             //>>跳转到视图控制器(出口)
+                            var_dump($em);die;
                             return $this->redirect('refer');
                         }
                     }
