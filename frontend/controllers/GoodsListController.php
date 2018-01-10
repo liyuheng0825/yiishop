@@ -184,6 +184,7 @@ class GoodsListController extends Controller{
                 $h->save(false);
             }
         }
+        echo '清理完成'.date('H:i:s');
     }
 
 }

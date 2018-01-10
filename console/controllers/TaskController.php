@@ -1,6 +1,7 @@
 <?php
 namespace console\controllers;
 use frontend\models\Goods;
+use frontend\models\Hits;
 use frontend\models\Order;
 use frontend\models\OrderGoods;
 use yii\console\Controller;
@@ -28,5 +29,18 @@ class TaskController extends Controller {
             //>>每10秒执行一次
             sleep(1);
         }
+    }
+    //>>每天凌晨3点执行
+    public function actionHist(){
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $hits = Hits::find()->all();//>>获取所有商品的游览量
+        foreach ($hits as $h){
+            if ($redis->get('times_'.$h->goods_id)){
+                $h->hits=$redis->get('times_'.$h->goods_id);
+                $h->save(false);
+            }
+        }
+        echo '清理完成'.date('H:i:s');
     }
 }
