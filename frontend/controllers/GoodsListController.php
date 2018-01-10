@@ -6,6 +6,7 @@ use Codeception\Module\Redis;
 use frontend\models\Goods;
 use frontend\models\GoodsIntro;
 use frontend\models\Hits;
+use frontend\models\Order;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -184,4 +185,5 @@ class GoodsListController extends Controller{
             }
         }
     }
+
 }

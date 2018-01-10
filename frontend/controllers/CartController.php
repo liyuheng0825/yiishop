@@ -304,7 +304,7 @@ class CartController extends Controller{
             return $this->redirect(['member/register']);//>>登录页面
         }else{
         //>>根据用户查询订单表
-        $order = Order::find()->where(['member_id'=>\Yii::$app->user->id])->orderBy('id desc')->all();
+        $order = Order::find()->where(['member_id'=>\Yii::$app->user->id])->andWhere(['status'=>1])->orderBy('id desc')->all();
         //>>根据订单id查询订单商品
         $html='';
         foreach ($order as $or){
@@ -339,4 +339,5 @@ class CartController extends Controller{
         return $this->render('state',['html'=>$html]);
         }
     }
+
 }
