@@ -231,7 +231,6 @@ class UserController extends Controller{
     //>>生成前台静态首页
     public function actionGenerate(){
         $result = $this->renderPartial('model');
-        file_put_contents('../../frontend/views/site/index.php',$result);
         file_put_contents('../../frontend/web/index.html',$result);
             echo "<script>alert('前台首页生成成功!');</script>";
             header("refresh:0;url=http://lyh.phpup.top");die;
