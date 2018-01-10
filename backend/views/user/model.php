@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
-    <title>水果之家 静态</title>
+    <title>水果之家 非静态</title>
 
 
     <link rel="stylesheet" href="/style/home.css" type="text/css">
