@@ -185,7 +185,7 @@ class GoodsListController extends Controller{
                 $h->save(false);
             }
         }
-        echo '保存访问量成功!'.date('H:i:s');
+        echo '保存访问量成功!'.date('Y-m-d H:i:s',time());
     }
     /**
      *设置超时未支付订单
@@ -203,7 +203,7 @@ class GoodsListController extends Controller{
                     Goods::updateAllCounters(['stock'=>$goods->amount],['id'=>$goods->goods_id]);
                 }
             }
-            echo '待支付超时订单清理完成'.date('H:i:s')."\n";
+            echo '待支付超时订单清理完成'.date('Y-m-d H:i:s',time());
     }
 
 }
