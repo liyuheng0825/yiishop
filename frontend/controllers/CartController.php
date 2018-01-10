@@ -275,13 +275,12 @@ class CartController extends Controller{
                             //>>提交事务
                             $transaction->commit();
                             //>>发送邮件
-                             $em=\Yii::$app->mailer->compose()
+                             \Yii::$app->mailer->compose()
                                  ->setFrom('10943575@qq.com')//>>发件人
                                  ->setTo(\Yii::$app->user->identity->email)//>>收件人
                                  ->setSubject('商城订单成功信息')//>>邮件主题
                                  ->setHtmlBody('<h1 style="color: red;">亲爱的'.\Yii::$app->user->identity->username.'您的订单已下单成功,请尽快支付哟!</h1>')//>>邮件内容
                                  ->send();
-                             var_dump($em);die;
                             //>>跳转到视图控制器(出口).
                             return $this->redirect('refer');
                         }
