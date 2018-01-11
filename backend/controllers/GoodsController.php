@@ -131,7 +131,7 @@ class GoodsController extends Controller{
 
      return $this->render('add',['model'=>$model,'goods_category_id'=>$goods_category_id,'article'=>$article,'goods_intro'=>$goods_intro]);
     }
-    //>>生成静态文件
+    //>>商品详情生成静态文件
     public function actionGoods($id){
         $row = Goods::findOne(['id'=>$id]);
         $hits = Hits::findOne(['goods_id'=>$id]);

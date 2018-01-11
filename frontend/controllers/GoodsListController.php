@@ -3,6 +3,7 @@ namespace frontend\controllers;
 use backend\models\GoodsCategory;
 use backend\models\GoodsGallery;
 use Codeception\Module\Redis;
+use common\models\SphinxClient;
 use frontend\models\Goods;
 use frontend\models\GoodsIntro;
 use frontend\models\Hits;
@@ -127,9 +128,10 @@ class GoodsListController extends Controller{
     }*/
     //>>搜索
     public function actionSearch($name){
-
+        //调用分词搜索出的数据
+        $ids = self::actionCoreseek($name);
         //>>查询商品
-        $goods = Goods::find()->where(['like','name',$name])->all();
+        $goods = Goods::find()->where(['in','id',$ids])->all();
         //>>如果商品没有
         if (!$goods){
             return $this->renderPartial('error');
@@ -155,6 +157,24 @@ class GoodsListController extends Controller{
         );
 
         return $this->render('list',['html'=>$html,'pager'=>$pager]);
+    }
+    //>>分词搜索
+    public function actionCoreseek($name){
+
+        $cl = new SphinxClient();
+        $cl->SetServer ( '127.0.0.1', 9312);
+        $cl->SetConnectTimeout ( 10 );
+        $cl->SetArrayResult ( true );
+        $cl->SetMatchMode ( SPH_MATCH_EXTENDED2);
+        $cl->SetLimits(0, 1000);
+        $res = $cl->Query($name, 'goods');//shopstore_search
+        $ids=[];
+        if (isset($res['matches'])){
+            foreach($res['matches'] as $match){
+                $ids[] =$match['id'];
+            }
+        }
+        return $ids;
     }
     //>>静态页面判断用户是否登录
     public function actionUser(){
@@ -205,5 +225,22 @@ class GoodsListController extends Controller{
             }
             echo '待支付超时订单清理完成'.date('Y-m-d H:i:s',time());
     }
+/*    //>>job
+    public function actionRedis(){
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $redis->set('name','张三',30);//a将name= “张三”保存到redis，并设置30秒后过期
+        $redis->set('age',18);//b将age=  18 保存到redis
+    }
+    public function actionTtl(){
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        if ($redis->get('name')){//如果不存在
+            $redis->incr('age');//age自加1
+        }else{
+            $redis->decr('age');//age自减1
+        }
+        echo $redis->get('age');
+    }*/
 
 }
